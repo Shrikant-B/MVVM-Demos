@@ -8,10 +8,10 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.shrikantbadwaik.weatherforcast.BR
-import com.shrikantbadwaik.weatherforcast.MainActivity
 import com.shrikantbadwaik.weatherforcast.R
 import com.shrikantbadwaik.weatherforcast.databinding.ActivitySplashBinding
 import com.shrikantbadwaik.weatherforcast.domain.Constants
+import com.shrikantbadwaik.weatherforcast.view.weatherforecast.WeatherForecastActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -38,8 +38,8 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.getEvent().observe(this, Observer {
             when (it) {
-                Constants.ActivityCallingState.CALL_MAIN_ACTIVITY.name -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                Constants.ActivityCallingState.CALL_WEATHER_FORECAST_ACTIVITY.name -> {
+                    startActivity(Intent(this, WeatherForecastActivity::class.java))
                     finish()
                 }
             }

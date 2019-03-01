@@ -13,4 +13,14 @@
     <string name="font_roboto_regular">Roboto-Regular.ttf</string>
     <string name="font_roboto_thin">Roboto-Thin.ttf</string>
     <string name="font_roboto_thin_italic">Roboto-ThinItalic.ttf</string>
+
+    <string name="txt_error">Error</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_gps_enabled">Please enable GPS</string>
+    <string name="txt_location_permission">Permission denied! Unable to fetch forecast updates.</string>
+    <string name="txt_something_went_wrong">Something went wrong at our end!</string>
+    <string name="txt_no_internet_connection">Please try again! No internet connection.</string>
+    <string name="txt_retry">Retry</string>
+
+    <string name="format_01">%1$.2f\u00B0</string>
 </resources>

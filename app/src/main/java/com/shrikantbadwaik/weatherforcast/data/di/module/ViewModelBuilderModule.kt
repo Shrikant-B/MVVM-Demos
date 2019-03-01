@@ -4,8 +4,8 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.shrikantbadwaik.weatherforcast.data.di.annotation.ViewModelKey
 import com.shrikantbadwaik.weatherforcast.domain.ViewModelProviderFactory
-import com.shrikantbadwaik.weatherforcast.view.main.MainViewModel
 import com.shrikantbadwaik.weatherforcast.view.splash.SplashViewModel
+import com.shrikantbadwaik.weatherforcast.view.weatherforecast.WeatherForecastViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -22,6 +22,6 @@ abstract class ViewModelBuilderModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+    @ViewModelKey(WeatherForecastViewModel::class)
+    abstract fun bindWeatherForecastViewModel(viewModel: WeatherForecastViewModel): ViewModel
 }

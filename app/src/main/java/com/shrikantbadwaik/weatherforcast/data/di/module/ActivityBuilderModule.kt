@@ -1,8 +1,8 @@
 package com.shrikantbadwaik.weatherforcast.data.di.module
 
-import com.shrikantbadwaik.weatherforcast.MainActivity
 import com.shrikantbadwaik.weatherforcast.data.di.annotation.ActivityScope
 import com.shrikantbadwaik.weatherforcast.view.splash.SplashActivity
+import com.shrikantbadwaik.weatherforcast.view.weatherforecast.WeatherForecastActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -14,5 +14,5 @@ abstract class ActivityBuilderModule {
 
     @ActivityScope
     @ContributesAndroidInjector
-    abstract fun bindMainActivity(): MainActivity
+    abstract fun bindWeatherForecastActivity(): WeatherForecastActivity
 }

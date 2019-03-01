@@ -11,6 +11,6 @@ class SplashViewModel @Inject constructor() : ViewModel() {
     fun getEvent(): MutableLiveData<String> = event
 
     fun navigate() {
-        event.value = Constants.ActivityCallingState.CALL_MAIN_ACTIVITY.name
+        event.value = Constants.ActivityCallingState.CALL_WEATHER_FORECAST_ACTIVITY.name
     }
 }
