@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:background="#f5f6f7">
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.CustomFontTextView
                 android:id="@+id/tv_temperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,12 +26,13 @@
                 android:textSize="96sp"
                 android:textAlignment="center"
                 android:text="@{viewModel.tempInC}"
+                app:customFontName="@string/font_roboto_black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="20\u00B0"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.CustomFontTextView
                 android:id="@+id/tv_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
                 android:textAlignment="center"
                 android:layout_marginBottom="62dp"
                 android:text="@{viewModel.city}"
+                app:customFontName="@string/font_roboto_thin"
                 app:layout_constraintTop_toBottomOf="@+id/tv_temperature"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +58,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.CustomFontTextView
                 android:id="@+id/text_view01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,6 +69,7 @@
                 android:paddingEnd="15dp"
                 android:textAlignment="viewStart"
                 android:visibility="gone"
+                app:customFontName="@string/font_roboto_thin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

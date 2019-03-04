@@ -15,7 +15,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.CustomFontTextView
                 android:id="@+id/tv_day"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -23,13 +23,14 @@
                 android:textSize="16sp"
                 android:textColor="#FF2A2A2A"
                 android:text="@{viewModel.dayOfWeek}"
+                app:customFontName="@string/font_roboto_regular"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_temperature"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Day"/>
+                tools:text="Monday"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.CustomFontTextView
                 android:id="@+id/tv_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -37,6 +38,7 @@
                 android:textSize="16sp"
                 android:textColor="#FF2A2A2A"
                 android:text="@{viewModel.tempInC}"
+                app:customFontName="@string/font_roboto_regular"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
