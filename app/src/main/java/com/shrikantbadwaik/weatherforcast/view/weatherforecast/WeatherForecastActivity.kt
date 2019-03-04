@@ -108,7 +108,7 @@ class WeatherForecastActivity : AppCompatActivity() {
             when (it) {
                 Constants.Request.ON_SUCCESS.name -> {
                     activityBinding.constraintLayout.setBackgroundColor(Color.parseColor("#f5f6f7"))
-                    activityBinding.tvTemperature.visibility = View.VISIBLE
+                    activityBinding.tvCurrentTemperature.visibility = View.VISIBLE
                     activityBinding.tvCity.visibility = View.VISIBLE
                     activityBinding.recyclerView.visibility = View.VISIBLE
                     activityBinding.textView01.visibility = View.GONE
@@ -116,7 +116,7 @@ class WeatherForecastActivity : AppCompatActivity() {
                 }
                 Constants.Request.ON_FAILURE.name -> {
                     activityBinding.constraintLayout.setBackgroundColor(Color.parseColor("#e85959"))
-                    activityBinding.tvTemperature.visibility = View.GONE
+                    activityBinding.tvCurrentTemperature.visibility = View.GONE
                     activityBinding.tvCity.visibility = View.GONE
                     activityBinding.recyclerView.visibility = View.GONE
                     activityBinding.textView01.visibility = View.VISIBLE
@@ -131,7 +131,7 @@ class WeatherForecastActivity : AppCompatActivity() {
             when (it) {
                 Constants.RETRY -> {
                     activityBinding.constraintLayout.setBackgroundColor(Color.parseColor("#f5f6f7"))
-                    activityBinding.tvTemperature.visibility = View.GONE
+                    activityBinding.tvCurrentTemperature.visibility = View.GONE
                     activityBinding.tvCity.visibility = View.GONE
                     activityBinding.recyclerView.visibility = View.GONE
                     activityBinding.textView01.visibility = View.GONE
