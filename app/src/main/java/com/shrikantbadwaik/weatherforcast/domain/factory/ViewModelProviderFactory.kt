@@ -1,4 +1,4 @@
-package com.shrikantbadwaik.weatherforcast.domain
+package com.shrikantbadwaik.weatherforcast.domain.factory
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

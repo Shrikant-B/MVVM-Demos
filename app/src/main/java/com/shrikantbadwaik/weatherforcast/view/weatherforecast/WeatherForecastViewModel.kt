@@ -13,11 +13,11 @@ import com.google.android.gms.location.*
 import com.shrikantbadwaik.weatherforcast.R
 import com.shrikantbadwaik.weatherforcast.data.remote.CallbackObserverWrapper
 import com.shrikantbadwaik.weatherforcast.data.repository.Repository
-import com.shrikantbadwaik.weatherforcast.domain.Constants
 import com.shrikantbadwaik.weatherforcast.domain.model.CurrentJSON
 import com.shrikantbadwaik.weatherforcast.domain.model.ForeCastJSON
 import com.shrikantbadwaik.weatherforcast.domain.model.Forecast
 import com.shrikantbadwaik.weatherforcast.domain.util.AppUtil
+import com.shrikantbadwaik.weatherforcast.domain.util.Constants
 import com.shrikantbadwaik.weatherforcast.domain.util.PermissionUtil
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -43,6 +43,7 @@ class WeatherForecastViewModel @Inject constructor(
     private val city: ObservableField<String> = ObservableField()
     private val clickListener: MutableLiveData<Int> = MutableLiveData()
     private val forecast: ObservableArrayList<Forecast.ForecastDay> = ObservableArrayList()
+    private val weatherForecast: MutableLiveData<ArrayList<Forecast.ForecastDay>> = MutableLiveData()
 
     override fun onCleared() {
         super.onCleared()
@@ -68,6 +69,15 @@ class WeatherForecastViewModel @Inject constructor(
     fun getClickListener(): MutableLiveData<Int> = clickListener
 
     fun getForecast(): ObservableArrayList<Forecast.ForecastDay> = forecast
+
+    fun setForecast(forecast: ArrayList<Forecast.ForecastDay>?) {
+        forecast?.let {
+            this.forecast.clear()
+            this.forecast.addAll(it)
+        } ?: return
+    }
+
+    fun getWeatherForecast(): MutableLiveData<ArrayList<Forecast.ForecastDay>> = weatherForecast
 
     fun onRetryButtonClicked() {
         clickListener.value = Constants.RETRY
@@ -133,7 +143,13 @@ class WeatherForecastViewModel @Inject constructor(
                         currentJSON.location?.let {
                             city.set(it.city)
                         }
-                        //TODO: show 4 days list
+                        val foreCastJSON = result.second
+                        foreCastJSON.forecast.forecastDay?.let {
+                            if (it.isNotEmpty()) {
+                                it.removeAt(0)
+                                weatherForecast.value = it
+                            }
+                        }
                     }
 
                     override fun onFailure(error: String) {

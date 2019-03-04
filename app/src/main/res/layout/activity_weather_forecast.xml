@@ -21,7 +21,7 @@
                 android:id="@+id/tv_temperature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#2a2a2a"
+                android:textColor="#FF2a2a2a"
                 android:layout_marginTop="56dp"
                 android:textSize="96sp"
                 android:textAlignment="center"
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#556799"
+                android:textColor="#FF556799"
                 android:textSize="36sp"
                 android:textAlignment="center"
                 android:layout_marginBottom="62dp"
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
+                android:weatherForecast="@{viewModel.forecast}"
                 app:layout_constraintTop_toBottomOf="@+id/tv_city"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +88,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-        <com.shrikantbadwaik.weatherforcast.domain.LoadingIndicatorImageView
+        <com.shrikantbadwaik.weatherforcast.domain.widget.LoadingIndicatorImageView
                 android:id="@+id/iv_loading_indicator"
                 android:layout_width="96dp"
                 android:layout_height="96dp"

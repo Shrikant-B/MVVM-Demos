@@ -1,6 +1,6 @@
 package com.shrikantbadwaik.weatherforcast.data.remote
 
-import com.shrikantbadwaik.weatherforcast.domain.Constants
+import com.shrikantbadwaik.weatherforcast.domain.util.Constants
 import io.reactivex.observers.DisposableObserver
 import okhttp3.ResponseBody
 import org.json.JSONObject

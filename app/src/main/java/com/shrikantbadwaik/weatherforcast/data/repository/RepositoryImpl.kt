@@ -18,6 +18,6 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun getNextFourDayWeatherForecast(query: String): Observable<ForeCastJSON> {
-        return api.getNextFourDaysWeather(BuildConfig.API_KEY, query, 4)
+        return api.getNextFourDaysWeather(BuildConfig.API_KEY, query, 5)
     }
 }

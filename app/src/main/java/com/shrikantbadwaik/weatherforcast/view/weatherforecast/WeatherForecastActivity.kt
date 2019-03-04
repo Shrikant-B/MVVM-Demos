@@ -8,13 +8,15 @@ import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.google.android.gms.location.LocationServices
 import com.shrikantbadwaik.weatherforcast.BR
 import com.shrikantbadwaik.weatherforcast.R
 import com.shrikantbadwaik.weatherforcast.databinding.ActivityWeatherForecastBinding
-import com.shrikantbadwaik.weatherforcast.domain.Constants
+import com.shrikantbadwaik.weatherforcast.domain.model.Forecast
 import com.shrikantbadwaik.weatherforcast.domain.util.AppUtil
+import com.shrikantbadwaik.weatherforcast.domain.util.Constants
 import com.shrikantbadwaik.weatherforcast.domain.util.DialogUtil
 import com.shrikantbadwaik.weatherforcast.domain.util.PermissionUtil
 import dagger.android.AndroidInjection
@@ -23,6 +25,8 @@ import javax.inject.Inject
 class WeatherForecastActivity : AppCompatActivity() {
     @Inject
     lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    lateinit var adapter: WeatherForecastRecyclerAdapter
 
     private lateinit var viewModel: WeatherForecastViewModel
     private lateinit var activityBinding: ActivityWeatherForecastBinding
@@ -31,12 +35,38 @@ class WeatherForecastActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setupBindingAndViewModel()
+        setupRecyclerView()
 
         viewModel.setFusedLocationClient(LocationServices.getFusedLocationProviderClient(this))
         if (AppUtil.isMarshmallow()) {
             viewModel.getDeviceLocation(PermissionUtil.hasPermission(this, PermissionUtil.LOCATION_PERMISSION))
         } else viewModel.startLocationUpdates()
 
+        permissionsObserver()
+        dialogObserver()
+        apiResponseObserver()
+        clickObserver()
+        weatherForecastObserver()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        viewModel.onRequestPermissionResult(requestCode, permissions, grantResults)
+    }
+
+    private fun setupBindingAndViewModel() {
+        activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather_forecast)
+        viewModel = ViewModelProviders.of(this, factory).get(WeatherForecastViewModel::class.java)
+        activityBinding.setVariable(BR.viewModel, viewModel)
+        activityBinding.executePendingBindings()
+    }
+
+    private fun setupRecyclerView() {
+        activityBinding.recyclerView.adapter = adapter
+        activityBinding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun permissionsObserver() {
         viewModel.getPermissionRequest().observe(this, Observer {
             when (it) {
                 Constants.RuntimePermissions.LOCATION_PERMISSION.name -> {
@@ -47,7 +77,9 @@ class WeatherForecastActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun dialogObserver() {
         viewModel.getDialog().observe(this, Observer {
             when (it) {
                 Constants.DialogState.GPS_DIALOG.name -> {
@@ -67,7 +99,9 @@ class WeatherForecastActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun apiResponseObserver() {
         viewModel.getRequest().observe(this, Observer {
             when (it) {
                 Constants.Request.ON_SUCCESS.name -> {
@@ -88,7 +122,9 @@ class WeatherForecastActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun clickObserver() {
         viewModel.getClickListener().observe(this, Observer {
             when (it) {
                 Constants.RETRY -> {
@@ -109,15 +145,9 @@ class WeatherForecastActivity : AppCompatActivity() {
         })
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        viewModel.onRequestPermissionResult(requestCode, permissions, grantResults)
-    }
-
-    private fun setupBindingAndViewModel() {
-        activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_weather_forecast)
-        viewModel = ViewModelProviders.of(this, factory).get(WeatherForecastViewModel::class.java)
-        activityBinding.setVariable(BR.viewModel, viewModel)
-        activityBinding.executePendingBindings()
+    private fun weatherForecastObserver() {
+        viewModel.getWeatherForecast().observe(this, Observer<ArrayList<Forecast.ForecastDay>> {
+            viewModel.setForecast(it)
+        })
     }
 }

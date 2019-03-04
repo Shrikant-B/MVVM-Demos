@@ -23,4 +23,5 @@
     <string name="txt_retry">Retry</string>
 
     <string name="format_01">%1$.2f\u00B0</string>
+    <string name="format_02">%1$.2f C</string>
 </resources>

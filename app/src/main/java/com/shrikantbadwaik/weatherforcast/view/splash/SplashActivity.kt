@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import com.shrikantbadwaik.weatherforcast.BR
 import com.shrikantbadwaik.weatherforcast.R
 import com.shrikantbadwaik.weatherforcast.databinding.ActivitySplashBinding
-import com.shrikantbadwaik.weatherforcast.domain.Constants
+import com.shrikantbadwaik.weatherforcast.domain.util.Constants
 import com.shrikantbadwaik.weatherforcast.view.weatherforecast.WeatherForecastActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject

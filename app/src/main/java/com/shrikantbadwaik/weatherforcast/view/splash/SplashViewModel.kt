@@ -2,7 +2,7 @@ package com.shrikantbadwaik.weatherforcast.view.splash
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.shrikantbadwaik.weatherforcast.domain.Constants
+import com.shrikantbadwaik.weatherforcast.domain.util.Constants
 import javax.inject.Inject
 
 class SplashViewModel @Inject constructor() : ViewModel() {

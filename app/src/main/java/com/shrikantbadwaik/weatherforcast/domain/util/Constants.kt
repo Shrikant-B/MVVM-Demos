@@ -1,4 +1,4 @@
-package com.shrikantbadwaik.weatherforcast.domain
+package com.shrikantbadwaik.weatherforcast.domain.util
 
 object Constants {
     const val DURATION_4000: Long = 4000L
