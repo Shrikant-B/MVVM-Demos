@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.animation.AnimationUtils
 import com.google.android.gms.location.LocationServices
 import com.shrikantbadwaik.weatherforcast.BR
 import com.shrikantbadwaik.weatherforcast.R
@@ -21,6 +22,7 @@ import com.shrikantbadwaik.weatherforcast.domain.util.DialogUtil
 import com.shrikantbadwaik.weatherforcast.domain.util.PermissionUtil
 import dagger.android.AndroidInjection
 import javax.inject.Inject
+
 
 class WeatherForecastActivity : AppCompatActivity() {
     @Inject
@@ -148,6 +150,9 @@ class WeatherForecastActivity : AppCompatActivity() {
     private fun weatherForecastObserver() {
         viewModel.getWeatherForecast().observe(this, Observer<ArrayList<Forecast.ForecastDay>> {
             viewModel.setForecast(it)
+            val bottomToTop = AnimationUtils.loadAnimation(this, R.anim.bottom_to_top)
+            activityBinding.recyclerView.startAnimation(bottomToTop)
+            activityBinding.recyclerView.visibility = View.VISIBLE
         })
     }
 }
