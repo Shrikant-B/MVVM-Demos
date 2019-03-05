@@ -1,2 +1,2 @@
-# Model-View-ViewModel(Mvvm) Demo
-Various demos using MVVM design pattern (https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
+# Twitter Search Api Demo
+Sample application to demonstrate use of Twitter search api (https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets.html)
