@@ -12,9 +12,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "BASE_URL", "\"http://api.apixu.com/v1/\""
+        buildConfigField "String", "BASE_URL", "\"https://api.twitter.com\""
         buildConfigField "boolean", "SHOW_LOGS", "true"
-        buildConfigField "String", "API_KEY", "\"915eef0ebb3e463db76120607190103\""
+        buildConfigField "String", "API_KEY", "\"w1djQBssLLlB9DDrk6zXZ0cUq\""
+        buildConfigField "String", "SECRET_KEY", "\"6aEKpKOepMctM5wNO4HCTDLFssPu0uVmnliovetu0jG2J6rwwc\""
     }
     buildTypes {
         release {

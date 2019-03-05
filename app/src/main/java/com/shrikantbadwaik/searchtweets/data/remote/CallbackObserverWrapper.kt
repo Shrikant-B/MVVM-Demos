@@ -25,7 +25,7 @@ abstract class CallbackObserverWrapper<R> : DisposableObserver<R>() {
             }
             is SocketTimeoutException -> onFailure("Network Timeout")
             is IOException -> onFailure("Failed to connect to server")
-            else -> onFailure(e.localizedMessage)
+            else -> onFailure(e.localizedMessage.toString())
         }
     }
 
@@ -34,13 +34,12 @@ abstract class CallbackObserverWrapper<R> : DisposableObserver<R>() {
     }
 
     private fun getErrorMessage(responseBody: ResponseBody?): String {
-        var error = "Unknown error occurred"
         return try {
-            error = responseBody!!.string()
-            val jsonObject = JSONObject(error)
-            jsonObject.getString(Constants.API_ERROR_RESPONSE_KEY)
+            val jsonObject = JSONObject(responseBody?.string())
+            val jsonArray = jsonObject.getJSONArray(Constants.API_ERROR_RESPONSE_KEY)
+            jsonArray.getString(0)
         } catch (e: Exception) {
-            error
+            e.message.toString()
         }
     }
 }

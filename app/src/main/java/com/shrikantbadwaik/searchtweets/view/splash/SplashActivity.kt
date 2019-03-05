@@ -11,7 +11,7 @@ import com.shrikantbadwaik.searchtweets.BR
 import com.shrikantbadwaik.searchtweets.R
 import com.shrikantbadwaik.searchtweets.databinding.ActivitySplashBinding
 import com.shrikantbadwaik.searchtweets.domain.util.Constants
-import com.shrikantbadwaik.searchtweets.view.MainActivity
+import com.shrikantbadwaik.searchtweets.view.searchtweets.SearchTweetsActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -39,7 +39,7 @@ class SplashActivity : AppCompatActivity() {
         viewModel.getEvent().observe(this, Observer {
             when (it) {
                 Constants.ActivityCallingState.CALL_SEARCH_TWEET_ACTIVITY.name -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, SearchTweetsActivity::class.java))
                     finish()
                 }
             }

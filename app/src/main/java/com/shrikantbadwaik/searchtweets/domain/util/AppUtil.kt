@@ -1,10 +1,11 @@
 package com.shrikantbadwaik.searchtweets.domain.util
 
 import android.content.Context
-import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.os.Build
 import android.support.annotation.StringRes
+import android.util.Base64
+import java.io.UnsupportedEncodingException
 import javax.inject.Inject
 
 class AppUtil @Inject constructor(private val context: Context) {
@@ -17,6 +18,11 @@ class AppUtil @Inject constructor(private val context: Context) {
                 val activeNetwork = cm.activeNetworkInfo
                 activeNetwork != null && activeNetwork.isConnected
             } else false
+        }
+
+        @Throws(UnsupportedEncodingException::class)
+        fun base64String(value: String): String {
+            return Base64.encodeToString(value.toByteArray(charset("UTF-8")), Base64.NO_WRAP)
         }
     }
 

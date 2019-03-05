@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.shrikantbadwaik.searchtweets.data.di.annotation.ViewModelKey
 import com.shrikantbadwaik.searchtweets.domain.factory.ViewModelProviderFactory
+import com.shrikantbadwaik.searchtweets.view.searchtweets.SearchTweetsViewModel
 import com.shrikantbadwaik.searchtweets.view.splash.SplashViewModel
 import dagger.Binds
 import dagger.Module
@@ -18,4 +19,9 @@ abstract class ViewModelBuilderModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchTweetsViewModel::class)
+    abstract fun bindSearchTweetsViewModel(viewModel: SearchTweetsViewModel): ViewModel
 }
