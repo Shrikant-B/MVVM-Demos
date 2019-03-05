@@ -1,5 +1,6 @@
 package com.shrikantbadwaik.searchtweets.data.remote
 
+import com.shrikantbadwaik.searchtweets.domain.util.Constants
 import io.reactivex.observers.DisposableObserver
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -37,7 +38,7 @@ abstract class CallbackObserverWrapper<R> : DisposableObserver<R>() {
         return try {
             error = responseBody!!.string()
             val jsonObject = JSONObject(error)
-            jsonObject.getString("")
+            jsonObject.getString(Constants.API_ERROR_RESPONSE_KEY)
         } catch (e: Exception) {
             error
         }
