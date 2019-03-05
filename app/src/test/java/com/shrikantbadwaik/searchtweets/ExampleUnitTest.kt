@@ -1,4 +1,4 @@
-package com.shrikantbadwaik.mvvmdemos
+package com.shrikantbadwaik.searchtweets
 
 import org.junit.Test
 
