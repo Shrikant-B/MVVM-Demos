@@ -1,4 +1,4 @@
-package com.shrikantbadwaik.weatherforcast
+package com.shrikantbadwaik.mvvmdemos
 
 import org.junit.Test
 
