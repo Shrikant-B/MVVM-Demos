@@ -17,6 +17,7 @@ interface TwitterApi {
     fun mostRecentTweets(
         @Header("Authorization") authorization: String,
         @Query("q") query: String,
-        @Query("result_type") resultType: String
+        @Query("result_type") resultType: String,
+        @Query("count") count: Int
     ): Observable<Tweets>
 }

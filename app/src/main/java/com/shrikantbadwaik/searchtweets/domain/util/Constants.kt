@@ -14,11 +14,7 @@ object Constants {
     }
 
     enum class DialogState {
-        API_ERROR_DIALOG, DEVICE_OFFLINE_DIALOG
-    }
-
-    enum class Validations {
-        QUERY_EMPTY, EVERYTHING_OK
+        QUERY_EMPTY_ERROR_DIALOG, API_ERROR_DIALOG, DEVICE_OFFLINE_DIALOG
     }
 
     enum class ApiResult {

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.View
+import android.widget.ImageView
 import com.shrikantbadwaik.searchtweets.BR
 import com.shrikantbadwaik.searchtweets.R
 import com.shrikantbadwaik.searchtweets.databinding.ActivitySearchTweetsBinding
@@ -26,6 +27,7 @@ class SearchTweetsActivity : AppCompatActivity() {
 
     private lateinit var viewModel: SearchTweetsViewModel
     private lateinit var activityBinding: ActivitySearchTweetsBinding
+    private lateinit var clearButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
@@ -33,7 +35,6 @@ class SearchTweetsActivity : AppCompatActivity() {
         setupBindingAndViewModel()
         setupSearchView()
         setupRecyclerView()
-        validationObserver()
         dialogStateObserver()
         apiResultObserver()
         apiErrorObserver()
@@ -48,11 +49,12 @@ class SearchTweetsActivity : AppCompatActivity() {
     }
 
     private fun setupSearchView() {
+        clearButton = activityBinding.searchView.findViewById(R.id.search_close_btn)
         activityBinding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 adapter.clear()
+                clearButton.visibility = View.GONE
                 viewModel.getMostRecentTweets(query)
-                //TODO: show/hide clear button
                 return true
             }
 
@@ -67,19 +69,12 @@ class SearchTweetsActivity : AppCompatActivity() {
         activityBinding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun validationObserver() {
-        viewModel.getValidationLiveData().observe(this, Observer {
-            when (it) {
-                Constants.Validations.QUERY_EMPTY.name -> {
-                    DialogUtil.showErrorDialog(this, getString(R.string.txt_text_empty), null)
-                }
-            }
-        })
-    }
-
     private fun dialogStateObserver() {
         viewModel.getDialogStateLiveData().observe(this, Observer {
             when (it) {
+                Constants.DialogState.QUERY_EMPTY_ERROR_DIALOG.name -> {
+                    DialogUtil.showErrorDialog(this, getString(R.string.txt_text_empty), null)
+                }
                 Constants.DialogState.DEVICE_OFFLINE_DIALOG.name -> {
                     DialogUtil.showErrorDialog(this, getString(R.string.txt_no_internet_connection), null)
                 }
@@ -93,10 +88,12 @@ class SearchTweetsActivity : AppCompatActivity() {
                 Constants.ApiResult.ON_SUCCESS.name -> {
                     activityBinding.recyclerView.visibility = View.VISIBLE
                     activityBinding.textView01.visibility = View.GONE
+                    clearButton.visibility = View.VISIBLE
                 }
                 Constants.ApiResult.ON_FAILURE.name -> {
                     activityBinding.recyclerView.visibility = View.GONE
                     activityBinding.textView01.visibility = View.VISIBLE
+                    clearButton.visibility = View.VISIBLE
                 }
             }
         })

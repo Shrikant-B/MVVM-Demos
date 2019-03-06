@@ -15,16 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
-                android:id="@+id/linear_layout"
+        <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraint_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:background="@color/colorBlue02"
                 android:focusableInTouchMode="true"
+                app:layout_constraintHeight_percent="0.16"
                 app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -38,21 +39,25 @@
                     android:layout_height="45dp"
                     app:iconifiedByDefault="false"
                     app:searchIcon="@null"
-                    app:queryHint="@string/txt_type_something_here"/>
-        </LinearLayout>
+                    app:queryHint="@string/txt_type_something_here"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <ProgressBar
-                android:id="@+id/progress_bar"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
-                app:layout_constraintEnd_toEndOf="@+id/linear_layout"
-                app:layout_constraintBottom_toBottomOf="@+id/linear_layout"
-                app:layout_constraintTop_toTopOf="@+id/linear_layout"
-                app:layout_constraintStart_toStartOf="@+id/linear_layout"
-                app:layout_constraintHorizontal_bias="0.88"
-                app:layout_constraintVertical_bias="0.5"/>
+            <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintHorizontal_bias="0.95"
+                    app:layout_constraintTop_toTopOf="@+id/search_view"
+                    app:layout_constraintEnd_toEndOf="@+id/search_view"
+                    app:layout_constraintStart_toStartOf="@+id/search_view"
+                    app:layout_constraintBottom_toBottomOf="@+id/search_view"/>
+        </android.support.constraint.ConstraintLayout>
 
         <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
                 android:id="@+id/text_view01"
@@ -75,7 +80,7 @@
                 android:layout_height="0dp"
                 android:visibility="gone"
                 android:mostRecentTweets="@{viewModel.tweetsObservable}"
-                app:layout_constraintTop_toBottomOf="@+id/linear_layout"
+                app:layout_constraintTop_toBottomOf="@+id/constraint_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>

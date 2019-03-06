@@ -27,6 +27,6 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun mostRecentTweets(query: String): Observable<Tweets> {
-        return api.mostRecentTweets("Bearer ${getAccessToken()}", query, Constants.RESULT_TYPE)
+        return api.mostRecentTweets("Bearer ${getAccessToken()}", query, Constants.RESULT_TYPE, 50)
     }
 }

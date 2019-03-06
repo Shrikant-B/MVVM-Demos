@@ -23,7 +23,6 @@ class SearchTweetsViewModel @Inject constructor(
     private val ctx: Application, private val repository: Repository
 ) : AndroidViewModel(ctx) {
     private var disposable: Disposable? = null
-    private val validationLiveData: MutableLiveData<String> = MutableLiveData()
     private val dialogStateLiveData: MutableLiveData<String> = MutableLiveData()
     private val apiResultLiveData: MutableLiveData<String> = MutableLiveData()
     private var apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
@@ -35,8 +34,6 @@ class SearchTweetsViewModel @Inject constructor(
         super.onCleared()
         disposable?.dispose()
     }
-
-    fun getValidationLiveData() = validationLiveData
 
     fun getDialogStateLiveData() = dialogStateLiveData
 
@@ -65,9 +62,8 @@ class SearchTweetsViewModel @Inject constructor(
 
     fun getMostRecentTweets(query: String?) {
         if (query.isNullOrEmpty()) {
-            validationLiveData.value = Constants.Validations.QUERY_EMPTY.name
+            dialogStateLiveData.value = Constants.DialogState.QUERY_EMPTY_ERROR_DIALOG.name
         } else {
-            validationLiveData.value = Constants.Validations.EVERYTHING_OK.name
             if (repository.getAccessToken().isNullOrEmpty()) {
                 generateAccessToken(query)
             } else searchMostRecentTweets(query)
@@ -119,6 +115,7 @@ class SearchTweetsViewModel @Inject constructor(
                 override fun onFailure(error: String) {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                    apiErrorsLiveData.value = error
                 }
 
                 override fun onCompleted() {
