@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="viewModel"
+                type="com.shrikantbadwaik.searchtweets.view.searchtweets.SearchTweetsRecyclerAdapter.ContentViewHolder.ViewModel"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="5dp"
+            app:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="8dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_user_profile_picture"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_twitter_logo"
+                    android:scaleType="fitXY"
+                    android:imageUrl="@{viewModel.profilePic}"
+                    app:riv_oval="true"
+                    app:riv_border_color="@color/colorBlue02"
+                    app:riv_border_width="1dp"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textColor="@android:color/black"
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:text="@{viewModel.twitterUserName}"
+                    app:customFontName="@string/font_roboto_black"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/riv_user_profile_picture"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_user_handle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="User Name"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                    android:id="@+id/tv_user_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:maxLines="1"
+                    android:textSize="15sp"
+                    android:text="@{viewModel.twitterUserHandle}"
+                    app:customFontName="@string/font_roboto_light"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="UserHandle"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                    android:id="@+id/tv_tweet_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:text="@{viewModel.tweetText}"
+                    app:customFontName="@string/font_roboto_regular"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
+                    app:layout_constraintStart_toEndOf="@+id/riv_user_profile_picture"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Tweet text"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_retweets"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:rotation="90"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_retweets"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"
+                    app:layout_constraintStart_toStartOf="@+id/tv_tweet_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                    android:id="@+id/tv_retweets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#667687"
+                    android:maxLines="1"
+                    android:text="@{viewModel.retweetCount}"
+                    app:layout_constraintTop_toTopOf="@+id/iv_retweets"
+                    app:layout_constraintStart_toEndOf="@+id/iv_retweets"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_retweets"
+                    app:customFontName="@string/font_roboto_light"
+                    tools:text="1234"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_favourites"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_favorites"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"
+                    app:layout_constraintStart_toEndOf="@+id/tv_retweets"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                    android:id="@+id/tv_favourites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#667687"
+                    android:maxLines="1"
+                    android:text="@{viewModel.favouriteCount}"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintTop_toTopOf="@+id/iv_favourites"
+                    app:layout_constraintStart_toEndOf="@+id/iv_favourites"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_favourites"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:customFontName="@string/font_roboto_light"
+                    tools:text="1234"/>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>

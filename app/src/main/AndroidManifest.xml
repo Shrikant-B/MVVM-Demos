@@ -4,6 +4,7 @@
           package="com.shrikantbadwaik.searchtweets">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:name=".TwitterApplication"
@@ -21,7 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.searchtweets.SearchTweetsActivity"/>
+        <activity android:name=".view.searchtweets.SearchTweetsActivity"
+                  android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

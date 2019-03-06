@@ -26,6 +26,7 @@ class SearchTweetsViewModel @Inject constructor(
     private val validationLiveData: MutableLiveData<String> = MutableLiveData()
     private val dialogStateLiveData: MutableLiveData<String> = MutableLiveData()
     private val apiResultLiveData: MutableLiveData<String> = MutableLiveData()
+    private var apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
     private val tweetsLiveData: MutableLiveData<ArrayList<Tweet>> = MutableLiveData()
     private val tweetsObservable: ObservableArrayList<Tweet> = ObservableArrayList()
     private val loading: ObservableBoolean = ObservableBoolean(false)
@@ -41,12 +42,16 @@ class SearchTweetsViewModel @Inject constructor(
 
     fun getApiResultLiveData() = apiResultLiveData
 
+    fun getApiErrorLiveData() = apiErrorsLiveData
+
     fun getTweetsLiveData() = tweetsLiveData
 
     fun setTweetsObservable(tweets: ArrayList<Tweet>?) {
         tweets?.let {
-            tweetsObservable.clear()
-            tweetsObservable.addAll(it)
+            if (it.isNotEmpty()) {
+                tweetsObservable.clear()
+                tweetsObservable.addAll(it)
+            }
         }
     }
 
@@ -58,8 +63,8 @@ class SearchTweetsViewModel @Inject constructor(
 
     fun isLoading(): ObservableBoolean = loading
 
-    fun getMostRecentTweets(query: String) {
-        if (query.isEmpty()) {
+    fun getMostRecentTweets(query: String?) {
+        if (query.isNullOrEmpty()) {
             validationLiveData.value = Constants.Validations.QUERY_EMPTY.name
         } else {
             validationLiveData.value = Constants.Validations.EVERYTHING_OK.name
@@ -71,6 +76,7 @@ class SearchTweetsViewModel @Inject constructor(
 
     private fun generateAccessToken(query: String) {
         if (AppUtil.isDeviceOnline(ctx)) {
+            setLoading(true)
             disposable = repository.generateAccessToken()
                 .flatMap(object : Function<TwitterAccessToken, Observable<Tweets>> {
                     override fun apply(token: TwitterAccessToken): Observable<Tweets> {
@@ -80,15 +86,19 @@ class SearchTweetsViewModel @Inject constructor(
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : CallbackObserverWrapper<Tweets>() {
                     override fun onSuccess(result: Tweets) {
+                        setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
                         tweetsLiveData.value = result.tweets
                     }
 
                     override fun onFailure(error: String) {
+                        setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                        apiErrorsLiveData.value = error
                     }
 
                     override fun onCompleted() {
+                        setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
                     }
                 })
@@ -96,19 +106,23 @@ class SearchTweetsViewModel @Inject constructor(
     }
 
     private fun searchMostRecentTweets(query: String) {
+        setLoading(true)
         disposable = repository.mostRecentTweets(query)
             .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribeWith(object : CallbackObserverWrapper<Tweets>() {
                 override fun onSuccess(result: Tweets) {
+                    setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
                     tweetsLiveData.value = result.tweets
                 }
 
                 override fun onFailure(error: String) {
+                    setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
                 }
 
                 override fun onCompleted() {
+                    setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
                 }
             })
