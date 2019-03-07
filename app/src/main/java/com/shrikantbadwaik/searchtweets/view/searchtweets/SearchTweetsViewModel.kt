@@ -27,8 +27,9 @@ class SearchTweetsViewModel @Inject constructor(
     private val apiResultLiveData: MutableLiveData<String> = MutableLiveData()
     private var apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
     private val tweetsLiveData: MutableLiveData<ArrayList<Tweet>> = MutableLiveData()
-    private val tweetsObservable: ObservableArrayList<Tweet> = ObservableArrayList()
+    private var tweetsObservable: ObservableArrayList<Tweet> = ObservableArrayList()
     private val loading: ObservableBoolean = ObservableBoolean(false)
+    private val filter: ObservableBoolean = ObservableBoolean(false)
 
     override fun onCleared() {
         super.onCleared()
@@ -60,6 +61,12 @@ class SearchTweetsViewModel @Inject constructor(
 
     fun isLoading(): ObservableBoolean = loading
 
+    fun isFilter(): ObservableBoolean = filter
+
+    fun onFilterButtonClicked() {
+        dialogStateLiveData.value = Constants.DialogState.SORT_TWEETS_DIALOG.name
+    }
+
     fun getMostRecentTweets(query: String?) {
         if (query.isNullOrEmpty()) {
             dialogStateLiveData.value = Constants.DialogState.QUERY_EMPTY_ERROR_DIALOG.name
@@ -85,17 +92,20 @@ class SearchTweetsViewModel @Inject constructor(
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
                         tweetsLiveData.value = result.tweets
+                        filter.set(true)
                     }
 
                     override fun onFailure(error: String) {
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
                         apiErrorsLiveData.value = error
+                        filter.set(false)
                     }
 
                     override fun onCompleted() {
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
+                        filter.set(true)
                     }
                 })
         } else dialogStateLiveData.value = Constants.DialogState.DEVICE_OFFLINE_DIALOG.name
@@ -110,18 +120,35 @@ class SearchTweetsViewModel @Inject constructor(
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
                     tweetsLiveData.value = result.tweets
+                    filter.set(true)
                 }
 
                 override fun onFailure(error: String) {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
                     apiErrorsLiveData.value = error
+                    filter.set(false)
                 }
 
                 override fun onCompleted() {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
+                    filter.set(true)
                 }
             })
+    }
+
+    fun sortTweets(sortBy: String?) {
+        if (tweetsLiveData.value.isNullOrEmpty()) {
+            dialogStateLiveData.value = Constants.DialogState.NO_TWEETS_TO_FILTER_DIALOG.name
+            filter.set(false)
+        } else {
+            filter.set(true)
+            when (sortBy) {
+                Constants.SORT_BY_RETWEETS -> tweetsObservable.sortBy { it.retweetCount }
+                Constants.SORT_BY_FAVORITES -> tweetsObservable.sortBy { it.favouriteCount }
+                else -> tweetsObservable.sortWith(compareBy({ it.retweetCount }, { it.favouriteCount }))
+            }
+        }
     }
 }

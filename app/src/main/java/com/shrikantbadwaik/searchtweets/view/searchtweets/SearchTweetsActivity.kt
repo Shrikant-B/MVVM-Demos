@@ -78,6 +78,27 @@ class SearchTweetsActivity : AppCompatActivity() {
                 Constants.DialogState.DEVICE_OFFLINE_DIALOG.name -> {
                     DialogUtil.showErrorDialog(this, getString(R.string.txt_no_internet_connection), null)
                 }
+                Constants.DialogState.SORT_TWEETS_DIALOG.name -> {
+                    DialogUtil.showSortTweetsDialog(this, object : DialogUtil.SortTweetDialogListener {
+                        override fun onSortByRetweetClicked(text: String) {
+                            activityBinding.btnFilter.text = text
+                            viewModel.sortTweets(Constants.SORT_BY_RETWEETS)
+                        }
+
+                        override fun onSortByFavouriteClicked(text: String) {
+                            activityBinding.btnFilter.text = text
+                            viewModel.sortTweets(Constants.SORT_BY_FAVORITES)
+                        }
+
+                        override fun onSortByBothClicked(text: String) {
+                            activityBinding.btnFilter.text = text
+                            viewModel.sortTweets(null)
+                        }
+                    })
+                }
+                Constants.DialogState.NO_TWEETS_TO_FILTER_DIALOG.name -> {
+                    DialogUtil.showErrorDialog(this, getString(R.string.txt_no_tweets_to_filter), null)
+                }
             }
         })
     }

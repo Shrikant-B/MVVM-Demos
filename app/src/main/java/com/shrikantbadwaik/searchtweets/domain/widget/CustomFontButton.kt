@@ -3,11 +3,11 @@ package com.shrikantbadwaik.searchtweets.domain.widget
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v7.widget.AppCompatTextView
+import android.support.v7.widget.AppCompatButton
 import android.util.AttributeSet
 import com.shrikantbadwaik.searchtweets.R
 
-class CustomFontTextView : AppCompatTextView {
+class CustomFontButton : AppCompatButton {
     constructor(context: Context) : super(context) {
         init(null)
     }

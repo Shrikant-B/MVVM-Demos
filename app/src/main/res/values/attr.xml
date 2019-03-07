@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CustomFontTextView">
-        <attr name="customFontName" format="string" />
+    <declare-styleable name="CustomFont">
+        <attr name="customFontName" format="string"/>
     </declare-styleable>
 </resources>

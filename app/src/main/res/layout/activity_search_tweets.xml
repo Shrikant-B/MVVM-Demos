@@ -25,7 +25,7 @@
                 android:paddingBottom="8dp"
                 android:background="@color/colorBlue02"
                 android:focusableInTouchMode="true"
-                app:layout_constraintHeight_percent="0.16"
+                app:layout_constraintHeight_percent="0.15"
                 app:layout_constraintVertical_bias="0.0"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,16 +34,16 @@
 
             <android.support.v7.widget.SearchView
                     android:id="@+id/search_view"
-                    android:background="@drawable/drawable_round_corner"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
+                    android:background="@drawable/drawable_round_corner"
                     app:iconifiedByDefault="false"
                     app:searchIcon="@null"
                     app:queryHint="@string/txt_type_something_here"
-                    app:layout_constraintVertical_bias="1.0"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.9"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_filter"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ProgressBar
@@ -57,6 +57,41 @@
                     app:layout_constraintEnd_toEndOf="@+id/search_view"
                     app:layout_constraintStart_toStartOf="@+id/search_view"
                     app:layout_constraintBottom_toBottomOf="@+id/search_view"/>
+
+            <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontButton
+                    android:id="@+id/btn_filter"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:text="@string/txt_filter"
+                    android:textAllCaps="false"
+                    android:textAlignment="textStart"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/transparent"
+                    android:textSize="13sp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="3dp"
+                    android:onClick="@{() -> viewModel.onFilterButtonClicked()}"
+                    android:visibility="@{viewModel.filter ? View.VISIBLE : View.GONE}"
+                    app:customFontName="@string/font_roboto_regular"
+                    app:layout_constraintTop_toTopOf="@+id/search_view"
+                    app:layout_constraintStart_toEndOf="@+id/search_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/search_view"
+                    app:layout_constraintVertical_bias="0.5"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_filter"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_drop_down"
+                    android:scaleType="fitXY"
+                    android:onClick="@{() -> viewModel.onFilterButtonClicked()}"
+                    android:visibility="@{viewModel.filter ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_filter"
+                    app:layout_constraintTop_toTopOf="@+id/btn_filter"
+                    app:layout_constraintStart_toStartOf="@+id/btn_filter"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_filter"/>
         </android.support.constraint.ConstraintLayout>
 
         <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView

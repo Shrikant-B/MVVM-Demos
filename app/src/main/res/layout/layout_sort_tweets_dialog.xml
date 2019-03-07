@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+        <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                android:id="@+id/btn_retweets"
+                style="@style/AppTheme.BottomDialog.Buttons"
+                android:text="@string/txt_retweets"
+                android:padding="16dp"
+                app:customFontName="@string/font_roboto_regular"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View android:id="@+id/view01"
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/darker_gray"
+              app:layout_constraintTop_toBottomOf="@+id/btn_retweets"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                android:id="@+id/btn_favourites"
+                style="@style/AppTheme.BottomDialog.Buttons"
+                android:text="@string/txt_favorites"
+                android:padding="16dp"
+                app:customFontName="@string/font_roboto_regular"
+                app:layout_constraintTop_toBottomOf="@+id/view01"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View android:id="@+id/view02"
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/darker_gray"
+              app:layout_constraintTop_toBottomOf="@+id/btn_favourites"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                android:id="@+id/btn_both"
+                style="@style/AppTheme.BottomDialog.Buttons"
+                android:text="@string/txt_both"
+                android:padding="16dp"
+                app:customFontName="@string/font_roboto_regular"
+                app:layout_constraintTop_toBottomOf="@+id/view02"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorBlue01"
+                android:gravity="center"
+                android:text="@string/txt_cancel"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:customFontName="@string/font_roboto_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_both"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>

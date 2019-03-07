@@ -9,10 +9,16 @@
 
     <string name="txt_error">Error</string>
     <string name="txt_ok">OK</string>
-    <string name="txt_type_something_here">Type something here</string>
+    <string name="txt_type_something_here">Search</string>
     <string name="txt_text_empty">Enter something to search!</string>
     <string name="txt_no_internet_connection">Please try again! No internet connection.</string>
     <string name="txt_search_message">See what’s happening right now</string>
+    <string name="txt_filter">Filter</string>
+    <string name="txt_retweets">Retweets</string>
+    <string name="txt_favorites">Favorites</string>
+    <string name="txt_both">Both</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_no_tweets_to_filter">Something must be wrong, there are no tweets to filter!</string>
 
     <string name="format01">\u0040%1$s</string>
 </resources>
