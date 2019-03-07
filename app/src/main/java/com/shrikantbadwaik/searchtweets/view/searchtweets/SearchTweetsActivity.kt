@@ -3,12 +3,15 @@ package com.shrikantbadwaik.searchtweets.view.searchtweets
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import com.shrikantbadwaik.searchtweets.BR
 import com.shrikantbadwaik.searchtweets.R
@@ -35,6 +38,7 @@ class SearchTweetsActivity : AppCompatActivity() {
         setupBindingAndViewModel()
         setupSearchView()
         setupRecyclerView()
+        keyboardStateObserver()
         dialogStateObserver()
         apiResultObserver()
         apiErrorObserver()
@@ -67,6 +71,32 @@ class SearchTweetsActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
         activityBinding.recyclerView.adapter = adapter
         activityBinding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        activityBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == 0) hideSoftKeyboard()
+            }
+        })
+    }
+
+    private fun keyboardStateObserver() {
+        viewModel.getKeyboardStateLiveData().observe(this, Observer {
+            when (it) {
+                Constants.KeyboardState.HIDE.name -> hideSoftKeyboard()
+                Constants.KeyboardState.SHOW.name -> showSoftKeyboard()
+            }
+        })
+    }
+
+    private fun hideSoftKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = this.currentFocus
+        view?.let { imm.hideSoftInputFromWindow(view.windowToken, 0) }
+    }
+
+    private fun showSoftKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = this.currentFocus
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun dialogStateObserver() {

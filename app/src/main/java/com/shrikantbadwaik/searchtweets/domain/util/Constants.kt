@@ -23,4 +23,7 @@ object Constants {
     enum class ApiResult {
         ON_SUCCESS, ON_FAILURE, ON_COMPLETED
     }
+    enum class KeyboardState {
+        SHOW, HIDE
+    }
 }

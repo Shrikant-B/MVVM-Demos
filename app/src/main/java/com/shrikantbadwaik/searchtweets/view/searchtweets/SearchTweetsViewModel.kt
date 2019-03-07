@@ -28,6 +28,7 @@ class SearchTweetsViewModel @Inject constructor(
     private var apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
     private val tweetsLiveData: MutableLiveData<ArrayList<Tweet>> = MutableLiveData()
     private var tweetsObservable: ObservableArrayList<Tweet> = ObservableArrayList()
+    private var keyboardStateLiveData: MutableLiveData<String> = MutableLiveData()
     private val loading: ObservableBoolean = ObservableBoolean(false)
     private val filter: ObservableBoolean = ObservableBoolean(false)
 
@@ -55,6 +56,8 @@ class SearchTweetsViewModel @Inject constructor(
 
     fun getTweetsObservable() = tweetsObservable
 
+    fun getKeyboardStateLiveData() = keyboardStateLiveData
+
     fun setLoading(state: Boolean) {
         loading.set(state)
     }
@@ -70,7 +73,9 @@ class SearchTweetsViewModel @Inject constructor(
     fun getMostRecentTweets(query: String?) {
         if (query.isNullOrEmpty()) {
             dialogStateLiveData.value = Constants.DialogState.QUERY_EMPTY_ERROR_DIALOG.name
+            keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
         } else {
+            keyboardStateLiveData.value = Constants.KeyboardState.HIDE.name
             if (repository.getAccessToken().isNullOrEmpty()) {
                 generateAccessToken(query)
             } else searchMostRecentTweets(query)
@@ -92,12 +97,14 @@ class SearchTweetsViewModel @Inject constructor(
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
                         tweetsLiveData.value = result.tweets
+                        keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                         filter.set(true)
                     }
 
                     override fun onFailure(error: String) {
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                        keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                         apiErrorsLiveData.value = error
                         filter.set(false)
                     }
@@ -105,6 +112,7 @@ class SearchTweetsViewModel @Inject constructor(
                     override fun onCompleted() {
                         setLoading(false)
                         apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
+                        keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                         filter.set(true)
                     }
                 })
@@ -119,6 +127,7 @@ class SearchTweetsViewModel @Inject constructor(
                 override fun onSuccess(result: Tweets) {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
+                    keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                     tweetsLiveData.value = result.tweets
                     filter.set(true)
                 }
@@ -126,6 +135,7 @@ class SearchTweetsViewModel @Inject constructor(
                 override fun onFailure(error: String) {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                    keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                     apiErrorsLiveData.value = error
                     filter.set(false)
                 }
@@ -133,6 +143,7 @@ class SearchTweetsViewModel @Inject constructor(
                 override fun onCompleted() {
                     setLoading(false)
                     apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
+                    keyboardStateLiveData.value = Constants.KeyboardState.SHOW.name
                     filter.set(true)
                 }
             })
