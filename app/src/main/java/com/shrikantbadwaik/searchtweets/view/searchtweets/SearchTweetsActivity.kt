@@ -45,6 +45,10 @@ class SearchTweetsActivity : AppCompatActivity() {
         mostRecentTweetsObserver()
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     private fun setupBindingAndViewModel() {
         activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_tweets)
         viewModel = ViewModelProviders.of(this, factory).get(SearchTweetsViewModel::class.java)

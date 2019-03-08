@@ -10,6 +10,7 @@ object Constants {
     const val RESULT_TYPE = "recent"
     const val SORT_BY_RETWEETS = "sort_by_retweets"
     const val SORT_BY_FAVORITES = "sort_by_favorites"
+    const val MEDIA_TYPE_PHOTO = "photo"
 
     enum class ActivityCallingState {
         CALL_SEARCH_TWEET_ACTIVITY
@@ -23,6 +24,7 @@ object Constants {
     enum class ApiResult {
         ON_SUCCESS, ON_FAILURE, ON_COMPLETED
     }
+
     enum class KeyboardState {
         SHOW, HIDE
     }

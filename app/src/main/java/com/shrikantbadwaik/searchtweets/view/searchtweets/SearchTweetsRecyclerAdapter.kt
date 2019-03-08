@@ -1,6 +1,7 @@
 package com.shrikantbadwaik.searchtweets.view.searchtweets
 
 import android.databinding.DataBindingUtil
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.shrikantbadwaik.searchtweets.R
 import com.shrikantbadwaik.searchtweets.databinding.LayoutSearchTweetsAdapterContentBinding
 import com.shrikantbadwaik.searchtweets.domain.model.Tweet
 import com.shrikantbadwaik.searchtweets.domain.util.AppUtil
+import com.shrikantbadwaik.searchtweets.domain.util.Constants
 import javax.inject.Inject
 
 class SearchTweetsRecyclerAdapter @Inject constructor(
@@ -55,6 +57,19 @@ class SearchTweetsRecyclerAdapter @Inject constructor(
             val viewModel = ViewModel(tweet)
             binding.setVariable(BR.viewModel, viewModel)
             binding.executePendingBindings()
+
+            tweet.extendedEntities?.let {
+                it.media?.let { mediaList ->
+                    if (mediaList.isNotEmpty()) {
+                        val media = mediaList[0]
+                        if (media.mediaType.equals(Constants.MEDIA_TYPE_PHOTO)) {
+                            viewModel.setMediaView(true)
+                            viewModel.setMediaType(Constants.MEDIA_TYPE_PHOTO)
+                            viewModel.setMediaUrl(media.mediaUrl.toString())
+                        } else viewModel.setMediaView(false)
+                    } else viewModel.setMediaView(false)
+                } ?: viewModel.setMediaView(false)
+            } ?: viewModel.setMediaView(false)
         }
 
         inner class ViewModel(tweet: Tweet) {
@@ -64,6 +79,9 @@ class SearchTweetsRecyclerAdapter @Inject constructor(
             private val tweetText: ObservableField<String> = ObservableField()
             private val retweetCount: ObservableField<String> = ObservableField()
             private val favouriteCount: ObservableField<String> = ObservableField()
+            private val mediaView: ObservableBoolean = ObservableBoolean(false)
+            private val mediaType: ObservableField<String> = ObservableField()
+            private val mediaUrl: ObservableField<String> = ObservableField()
 
             fun getProfilePic() = profilePic
 
@@ -76,6 +94,24 @@ class SearchTweetsRecyclerAdapter @Inject constructor(
             fun getRetweetCount() = retweetCount
 
             fun getFavouriteCount() = favouriteCount
+
+            fun isMediaView() = mediaView
+
+            fun setMediaView(state: Boolean) {
+                mediaView.set(state)
+            }
+
+            fun getMediaType() = mediaType
+
+            fun setMediaType(type: String) {
+                mediaType.set(type)
+            }
+
+            fun getMediaUrl() = mediaUrl
+
+            fun setMediaUrl(url: String) {
+                mediaUrl.set(url)
+            }
 
             init {
                 profilePic.set(tweet.twitterUser?.profileImage)

@@ -4,6 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
                 name="viewModel"
                 type="com.shrikantbadwaik.searchtweets.view.searchtweets.SearchTweetsRecyclerAdapter.ContentViewHolder.ViewModel"/>
@@ -54,9 +56,9 @@
                     android:textSize="15sp"
                     android:text="@{viewModel.twitterUserName}"
                     app:customFontName="@string/font_roboto_black"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tv_user_handle"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintVertical_bias="0.0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/riv_user_profile_picture"
                     app:layout_constraintEnd_toStartOf="@+id/tv_user_handle"
@@ -65,20 +67,21 @@
 
             <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
                     android:id="@+id/tv_user_handle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
                     android:maxLines="1"
                     android:textSize="15sp"
+                    android:textAlignment="viewStart"
+                    android:ellipsize="end"
                     android:text="@{viewModel.twitterUserHandle}"
                     app:customFontName="@string/font_roboto_light"
                     app:layout_constraintVertical_bias="0.0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/tv_user_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    tools:text="UserHandle"/>
+                    tools:text="\u0040UserHandle"/>
 
             <com.shrikantbadwaik.searchtweets.domain.widget.CustomFontTextView
                     android:id="@+id/tv_tweet_text"
@@ -88,11 +91,29 @@
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:text="@{viewModel.tweetText}"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:textColorLink="@color/colorBlue01"
                     app:customFontName="@string/font_roboto_regular"
                     app:layout_constraintTop_toBottomOf="@+id/tv_user_name"
                     app:layout_constraintStart_toEndOf="@+id/riv_user_profile_picture"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:text="Tweet text"/>
+
+            <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/iv_tweet_media_image"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="@{viewModel.mediaView ? View.VISIBLE: View.GONE}"
+                    android:mediaType="@{viewModel.mediaType}"
+                    android:mediaUrl="@{viewModel.mediaUrl}"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHeight_percent="0.6"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"
+                    app:layout_constraintStart_toStartOf="@+id/tv_tweet_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/iv_retweets"
@@ -102,7 +123,7 @@
                     android:padding="5dp"
                     android:src="@drawable/ic_retweets"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_tweet_media_image"
                     app:layout_constraintStart_toStartOf="@+id/tv_tweet_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -128,7 +149,7 @@
                     android:padding="5dp"
                     android:src="@drawable/ic_favorites"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_tweet_text"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_tweet_media_image"
                     app:layout_constraintStart_toEndOf="@+id/tv_retweets"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>

@@ -17,7 +17,9 @@ data class Tweet(
     @JsonProperty("favorite_count")
     val favouriteCount: Int,
     @JsonProperty("text")
-    val tweetText: String?
+    val tweetText: String?,
+    @JsonProperty("extended_entities")
+    val extendedEntities: Entities?
 )
 
 data class TwitterUser(
