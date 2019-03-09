@@ -155,11 +155,15 @@ class SearchTweetsViewModel @Inject constructor(
             filter.set(false)
         } else {
             filter.set(true)
+            val beforeSort = ObservableArrayList<Tweet>()
+            beforeSort.addAll(tweetsObservable)
             when (sortBy) {
-                Constants.SORT_BY_RETWEETS -> tweetsObservable.sortBy { it.retweetCount }
-                Constants.SORT_BY_FAVORITES -> tweetsObservable.sortBy { it.favouriteCount }
-                else -> tweetsObservable.sortWith(compareBy({ it.retweetCount }, { it.favouriteCount }))
+                Constants.SORT_BY_RETWEETS -> beforeSort.sortBy { it.retweetCount }
+                Constants.SORT_BY_FAVORITES -> beforeSort.sortBy { it.favouriteCount }
+                else -> beforeSort.sortWith(compareBy({ it.retweetCount }, { it.favouriteCount }))
             }
+            tweetsObservable.clear()
+            tweetsObservable.addAll(beforeSort)
         }
     }
 }
