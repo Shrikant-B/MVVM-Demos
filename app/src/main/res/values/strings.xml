@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">MVVM Demos</string>
+    <string name="app_name">NEWS 24x7</string>
+
+    <string name="font_roboto_black">Roboto-Black.ttf</string>
+    <string name="font_roboto_regular">Roboto-Regular.ttf</string>
+    <string name="font_roboto_thin">Roboto-Thin.ttf</string>
+    <string name="font_roboto_light">Roboto-Light.ttf</string>
+    <string name="font_roboto_medium">Roboto-Medium.ttf</string>
+
+    <string name="txt_error">Error</string>
+    <string name="txt_ok">OK</string>
+    <string name="txt_type_something_here">Search</string>
+    <string name="txt_text_empty">Enter something to search!</string>
+    <string name="txt_no_internet_connection">Please try again! No internet connection.</string>
+    <string name="txt_search_message">See what’s happening right now</string>
+    <string name="txt_search_failed">Oops, No results found! Try some other keywords!</string>
 </resources>

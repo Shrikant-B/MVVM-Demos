@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:paddingTop="8dp">
+
+        <com.shrikantbadwaik.newsheadlines.domain.widget.CustomFontTextView
+                android:id="@+id/txt_error_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:customFontName="@string/font_roboto_regular"/>
+
+        <com.shrikantbadwaik.newsheadlines.domain.widget.CustomFontButton
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/colorGreen01"
+                android:gravity="center"
+                android:text="@string/txt_ok"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                app:customFontName="@string/font_roboto_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_error_message"/>
+    </android.support.constraint.ConstraintLayout>
+</layout>
