@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import com.shrikantbadwaik.newsheadlines.data.di.annotation.ViewModelKey
 import com.shrikantbadwaik.newsheadlines.domain.factory.ViewModelProviderFactory
+import com.shrikantbadwaik.newsheadlines.view.articledetails.ArticleDetailsViewModel
 import com.shrikantbadwaik.newsheadlines.view.splash.SplashViewModel
 import com.shrikantbadwaik.newsheadlines.view.topheadline.TopHeadlineViewModel
 import dagger.Binds
@@ -24,4 +25,9 @@ abstract class ViewModelBuilderModule {
     @IntoMap
     @ViewModelKey(TopHeadlineViewModel::class)
     abstract fun bindTopHeadlineViewModel(viewModel: TopHeadlineViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ArticleDetailsViewModel::class)
+    abstract fun bindArticleDetailsViewModel(viewModel: ArticleDetailsViewModel): ViewModel
 }

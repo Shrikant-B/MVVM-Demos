@@ -7,6 +7,7 @@ import java.util.*
 
 object DateUtil {
     const val yyyyMMddHHmmss = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    const val MMMddyyyy = "MMM dd. yyyy"
 
     fun stringToDate(pattern: String, dateString: String?): Date? {
         return try {
@@ -18,9 +19,11 @@ object DateUtil {
         }
     }
 
-    fun dateToString(pattern: String, date: Date?): String {
-        val formatter = SimpleDateFormat(pattern, Locale.getDefault())
-        return formatter.format(date)
+    fun dateToString(pattern: String, date: Date?): String? {
+        return date?.let {
+            val formatter = SimpleDateFormat(pattern, Locale.getDefault())
+            return formatter.format(it)
+        }
     }
 
     fun durationAgo(date: Date?): String? {

@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 class TopHeadlineRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val articles: ArrayList<Article> = ArrayList()
+    private var callback: AdapterCallback? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val adapterBinding = DataBindingUtil.inflate<LayoutTopHeadlineAdapterContentBinding>(
@@ -28,6 +29,11 @@ class TopHeadlineRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Re
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolder = holder as ContentViewHolder
         viewHolder.bind(articles[position])
+        viewHolder.itemView.setOnClickListener { callback?.onArticleClicked(articles[position]) }
+    }
+
+    fun setCallback(callback: AdapterCallback) {
+        this.callback = callback
     }
 
     fun setArticles(articles: ArrayList<Article>?) {
@@ -80,5 +86,9 @@ class TopHeadlineRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<Re
         fun getArticleTitle() = articleTitle
         fun getArticleDate() = articleDate
         fun getArticleImage() = articleImage
+    }
+
+    interface AdapterCallback {
+        fun onArticleClicked(article: Article)
     }
 }

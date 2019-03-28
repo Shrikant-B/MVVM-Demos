@@ -2,6 +2,7 @@ package com.shrikantbadwaik.newsheadlines.domain.util
 
 object Constants {
     const val DURATION_4000: Long = 4000L
+    const val ARG_ARTICLE = "article"
 
     enum class ActivityCallingState {
         CALL_TOP_HEADLINE_ACTIVITY
@@ -17,5 +18,9 @@ object Constants {
 
     enum class KeyboardState {
         SHOW, HIDE
+    }
+
+    enum class ClickEventState {
+        OPEN_WEB_BROWSER
     }
 }

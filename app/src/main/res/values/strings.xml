@@ -14,4 +14,7 @@
     <string name="txt_no_internet_connection">Please try again! No internet connection.</string>
     <string name="txt_search_message">See what’s happening right now</string>
     <string name="txt_search_failed">Oops, No results found! Try some other keywords!</string>
+    <string name="txt_view_full_coverage">View Full Coverage</string>
+    <string name="txt_article_by">Article By: %1$s</string>
+    <string name="txt_published_on">Published on: %1$s</string>
 </resources>

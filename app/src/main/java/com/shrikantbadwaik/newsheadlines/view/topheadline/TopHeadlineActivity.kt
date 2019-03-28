@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -19,6 +20,7 @@ import com.shrikantbadwaik.newsheadlines.databinding.ActivityTopHeadlineBinding
 import com.shrikantbadwaik.newsheadlines.domain.model.Article
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
 import com.shrikantbadwaik.newsheadlines.domain.util.DialogUtil
+import com.shrikantbadwaik.newsheadlines.view.articledetails.ArticleDetailsActivity
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
@@ -70,6 +72,13 @@ class TopHeadlineActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        adapter.setCallback(object : TopHeadlineRecyclerAdapter.AdapterCallback {
+            override fun onArticleClicked(article: Article) {
+                val intent = Intent(this@TopHeadlineActivity, ArticleDetailsActivity::class.java)
+                intent.putExtra(Constants.ARG_ARTICLE, article)
+                startActivity(intent)
+            }
+        })
         activityBinding.recyclerView.adapter = adapter
         activityBinding.recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         activityBinding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {

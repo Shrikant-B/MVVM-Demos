@@ -31,6 +31,11 @@ class TopHeadlineViewModel @Inject constructor(
     private val searchLoading: ObservableBoolean = ObservableBoolean(false)
     private val loading: ObservableBoolean = ObservableBoolean(false)
 
+    override fun onCleared() {
+        super.onCleared()
+        disposable?.dispose()
+    }
+
     fun getDialogStateLiveData() = dialogStateLiveData
 
     fun getKeyboardStateLiveData() = keyboardStateLiveData
