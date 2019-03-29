@@ -4,5 +4,5 @@ import com.shrikantbadwaik.newsheadlines.domain.model.News
 import io.reactivex.Observable
 
 interface Repository {
-    fun getTopHeadlines(countryName: String, query: String?): Observable<News>
+    fun getTopHeadlines(country: String, category: String, query: String?): Observable<News>
 }

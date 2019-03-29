@@ -10,7 +10,8 @@ interface NewsApi {
     @GET("/v2/top-headlines")
     fun topHeadlines(
         @Header("x-api-key") apiKey: String,
-        @Query("country") countryName: String,
+        @Query("country") country: String,
+        @Query("category") category: String,
         @Query("q") query: String?,
         @Query("pageSize") pageSize: Int
     ): Observable<News>

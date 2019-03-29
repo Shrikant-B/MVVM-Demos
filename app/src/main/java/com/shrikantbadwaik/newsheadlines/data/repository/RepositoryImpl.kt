@@ -12,7 +12,7 @@ import javax.inject.Singleton
 class RepositoryImpl @Inject constructor(
     private val prefs: PreferenceHelper, private val api: NewsApi
 ) : Repository {
-    override fun getTopHeadlines(countryName: String, query: String?): Observable<News> {
-        return api.topHeadlines(BuildConfig.API_KEY, countryName, query, 30)
+    override fun getTopHeadlines(country: String, category: String, query: String?): Observable<News> {
+        return api.topHeadlines(BuildConfig.API_KEY, country, category, query, 30)
     }
 }

@@ -17,4 +17,26 @@
     <string name="txt_view_full_coverage">View Full Coverage</string>
     <string name="txt_article_by">Article By: %1$s</string>
     <string name="txt_published_on">Published on: %1$s</string>
+    <string name="txt_select_country">Select Country</string>
+    <string name="txt_select_category">Select Category</string>
+
+    <string-array name="country">
+        <item>India</item>
+        <item>United States of America</item>
+        <item>United Kingdom of Great Britain and Northern Ireland</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Australia</item>
+        <item>Russia</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>General</item>
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+    </string-array>
 </resources>

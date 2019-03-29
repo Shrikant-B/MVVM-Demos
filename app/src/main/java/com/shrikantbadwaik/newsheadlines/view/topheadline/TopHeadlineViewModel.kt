@@ -23,13 +23,16 @@ class TopHeadlineViewModel @Inject constructor(
 ) : AndroidViewModel(ctx) {
     private var disposable: Disposable? = null
     private val dialogStateLiveData: MutableLiveData<String> = MutableLiveData()
-    private var keyboardStateLiveData: MutableLiveData<String> = MutableLiveData()
+    private val keyboardStateLiveData: MutableLiveData<String> = MutableLiveData()
     private val apiResultLiveData: MutableLiveData<String> = MutableLiveData()
-    private var apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
+    private val apiErrorsLiveData: MutableLiveData<String> = MutableLiveData()
     private val newsArticleLiveData: MutableLiveData<ArrayList<Article>> = MutableLiveData()
-    private var newsArticleObservable: ObservableArrayList<Article> = ObservableArrayList()
+    private val newsArticleObservable: ObservableArrayList<Article> = ObservableArrayList()
+    private val clickEventLiveData: MutableLiveData<String> = MutableLiveData()
     private val searchLoading: ObservableBoolean = ObservableBoolean(false)
     private val loading: ObservableBoolean = ObservableBoolean(false)
+    private var country: String = Constants.COUNTRIES[0]
+    private var category: String = Constants.CATEGORIES[0]
 
     override fun onCleared() {
         super.onCleared()
@@ -57,6 +60,8 @@ class TopHeadlineViewModel @Inject constructor(
 
     fun getNewsArticleObservable() = newsArticleObservable
 
+    fun getClickEventLiveData() = clickEventLiveData
+
     fun setSearchLoading(state: Boolean) {
         searchLoading.set(state)
     }
@@ -68,6 +73,38 @@ class TopHeadlineViewModel @Inject constructor(
     }
 
     fun isLoading(): ObservableBoolean = loading
+
+    fun onSelectCountryClicked() {
+        clickEventLiveData.value = Constants.ClickEventState.SELECT_COUNTRY_DIALOG.name
+    }
+
+    fun onSelectCategoryClicked() {
+        clickEventLiveData.value = Constants.ClickEventState.SELECT_CATEGORY_DIALOG.name
+    }
+
+    fun selectCountry(country: String, category: String) {
+        if (!country.equals(appUtil.getString(R.string.txt_select_country))) {
+            this.country = country
+            val categories = ctx.resources.getStringArray(R.array.category)
+            if (categories.contains(category)) {
+                this.category = Constants.CATEGORIES[categories.indexOf(category)]
+            } else this.category = Constants.CATEGORIES[0]
+        } else this.country = Constants.COUNTRIES[0]
+
+        getTopHeadlines(false, null)
+    }
+
+    fun selectCategory(country: String, category: String) {
+        if (!category.equals(appUtil.getString(R.string.txt_select_category))) {
+            this.category = category
+            val countries = ctx.resources.getStringArray(R.array.country)
+            if (countries.contains(country)) {
+                this.country = Constants.COUNTRIES[countries.indexOf(country)]
+            } else this.country = Constants.COUNTRIES[0]
+        } else this.category = Constants.CATEGORIES[0]
+
+        getTopHeadlines(false, null)
+    }
 
     fun getTopHeadlines(search: Boolean, query: String?) {
         if (search) {
@@ -93,7 +130,7 @@ class TopHeadlineViewModel @Inject constructor(
                 setSearchLoading(false)
                 setLoading(true)
             }
-            disposable = repository.getTopHeadlines("in", query)
+            disposable = repository.getTopHeadlines(country, category, query)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object : CallbackObserverWrapper<News>() {
                     override fun onSuccess(result: News) {

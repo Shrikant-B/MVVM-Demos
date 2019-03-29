@@ -42,6 +42,7 @@ class TopHeadlineActivity : AppCompatActivity() {
         setupRecyclerView()
         keyboardStateObserver()
         dialogStateObserver()
+        clickEventObserver()
         apiResultObserver()
         apiErrorObserver()
         newsArticleObserver()
@@ -105,6 +106,38 @@ class TopHeadlineActivity : AppCompatActivity() {
                 }
                 Constants.DialogState.DEVICE_OFFLINE_DIALOG.name -> {
                     DialogUtil.showErrorDialog(this, getString(R.string.txt_no_internet_connection), null)
+                }
+            }
+        })
+    }
+
+    private fun clickEventObserver() {
+        viewModel.getClickEventLiveData().observe(this, Observer {
+            when (it) {
+                Constants.ClickEventState.SELECT_COUNTRY_DIALOG.name -> {
+                    DialogUtil.showCountryPickerDialog(this, object : DialogUtil.DialogListener {
+                        override fun onButtonClicked() {
+                        }
+
+                        override fun onItemSelected(which: String, name: String) {
+                            adapter.clear()
+                            activityBinding.btnSelectCountry.text = name
+                            viewModel.selectCountry(which, activityBinding.btnSelectCategory.text.toString())
+                        }
+                    })
+                }
+
+                Constants.ClickEventState.SELECT_CATEGORY_DIALOG.name -> {
+                    DialogUtil.showCategoryPickerDialog(this, object : DialogUtil.DialogListener {
+                        override fun onButtonClicked() {
+                        }
+
+                        override fun onItemSelected(which: String, name: String) {
+                            adapter.clear()
+                            activityBinding.btnSelectCategory.text = name
+                            viewModel.selectCategory(activityBinding.btnSelectCountry.text.toString(), which)
+                        }
+                    })
                 }
             }
         })
