@@ -4,6 +4,7 @@ import android.app.Application
 import com.shrikantbadwaik.newsheadlines.NewsApplication
 import com.shrikantbadwaik.newsheadlines.data.di.module.ActivityBuilderModule
 import com.shrikantbadwaik.newsheadlines.data.di.module.ApplicationModule
+import com.shrikantbadwaik.newsheadlines.data.di.module.RoomModule
 import com.shrikantbadwaik.newsheadlines.data.di.module.ViewModelBuilderModule
 import dagger.BindsInstance
 import dagger.Component
@@ -13,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(
     modules = [AndroidInjectionModule::class, ApplicationModule::class,
-        ActivityBuilderModule::class, ViewModelBuilderModule::class]
+        ActivityBuilderModule::class, ViewModelBuilderModule::class, RoomModule::class]
 )
 interface ApplicationComponent {
     @Component.Builder

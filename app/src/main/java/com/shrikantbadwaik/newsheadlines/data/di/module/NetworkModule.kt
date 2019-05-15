@@ -2,6 +2,7 @@ package com.shrikantbadwaik.newsheadlines.data.di.module
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.shrikantbadwaik.newsheadlines.BuildConfig
 import com.shrikantbadwaik.newsheadlines.data.remote.NewsApi
 import dagger.Module
@@ -33,7 +34,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun jacksonConverterFactory(): JacksonConverterFactory {
-        val objectMapper = ObjectMapper()
+        val objectMapper = jacksonObjectMapper()
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return JacksonConverterFactory.create(objectMapper)
     }

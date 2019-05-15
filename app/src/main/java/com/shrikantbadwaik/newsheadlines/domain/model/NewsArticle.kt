@@ -1,7 +1,10 @@
 package com.shrikantbadwaik.newsheadlines.domain.model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.shrikantbadwaik.newsheadlines.domain.util.Constants
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -12,8 +15,13 @@ data class Source(
     val sourceName: String? = null
 ) : Parcelable
 
+@Entity(tableName = "newsArticle")
 @Parcelize
 data class Article(
+    @PrimaryKey(autoGenerate = true)
+    val articleId: Long,
+    var category: String = Constants.CATEGORIES[0],
+    var country: String = Constants.COUNTRIES[0],
     @JsonProperty("source")
     val source: Source? = null,
     @JsonProperty("author")

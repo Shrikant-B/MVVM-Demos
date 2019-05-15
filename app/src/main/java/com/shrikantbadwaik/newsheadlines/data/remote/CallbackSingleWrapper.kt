@@ -2,20 +2,17 @@ package com.shrikantbadwaik.newsheadlines.data.remote
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.shrikantbadwaik.newsheadlines.domain.model.ApiErrors
-import io.reactivex.observers.DisposableMaybeObserver
-import io.reactivex.observers.DisposableObserver
+import io.reactivex.observers.DisposableSingleObserver
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
 
-abstract class CallbackObserverWrapper<R> : DisposableMaybeObserver<R>() {
+abstract class CallbackSingleWrapper<R>: DisposableSingleObserver<R>() {
     protected abstract fun onApiSuccess(result: R)
-    protected abstract fun onFailure(error: String)
-    protected abstract fun onCompleted()
+    protected abstract fun onApiFailure(error: String)
 
     override fun onSuccess(result: R) {
         onApiSuccess(result)
@@ -25,16 +22,12 @@ abstract class CallbackObserverWrapper<R> : DisposableMaybeObserver<R>() {
         when (e) {
             is HttpException -> {
                 val responseBody = e.response().errorBody()
-                onFailure(getErrorMessage(responseBody))
+                onApiFailure(getErrorMessage(responseBody))
             }
-            is SocketTimeoutException -> onFailure("Network Timeout!")
-            is IOException -> onFailure("Failed to connect to server!")
-            else -> onFailure(e.localizedMessage.toString())
+            is SocketTimeoutException -> onApiFailure("Network Timeout!")
+            is IOException -> onApiFailure("Failed to connect to server!")
+            else -> onApiFailure(e.localizedMessage.toString())
         }
-    }
-
-    override fun onComplete() {
-        onCompleted()
     }
 
     private fun getErrorMessage(responseBody: ResponseBody?): String {

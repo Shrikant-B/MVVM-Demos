@@ -7,9 +7,9 @@ import android.databinding.ObservableArrayList
 import android.databinding.ObservableBoolean
 import com.shrikantbadwaik.newsheadlines.R
 import com.shrikantbadwaik.newsheadlines.data.remote.CallbackObserverWrapper
+import com.shrikantbadwaik.newsheadlines.data.remote.CallbackSingleWrapper
 import com.shrikantbadwaik.newsheadlines.data.repository.Repository
 import com.shrikantbadwaik.newsheadlines.domain.model.Article
-import com.shrikantbadwaik.newsheadlines.domain.model.News
 import com.shrikantbadwaik.newsheadlines.domain.util.AppUtil
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -132,16 +132,47 @@ class TopHeadlineViewModel @Inject constructor(
             }
             disposable = repository.getTopHeadlines(country, category, query)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : CallbackObserverWrapper<News>() {
-                    override fun onSuccess(result: News) {
+                .subscribeWith(object : CallbackSingleWrapper<List<Article>>() {
+                    override fun onApiSuccess(result: List<Article>) {
                         setSearchLoading(false)
                         setLoading(false)
-                        if (!result.articles.isNullOrEmpty()) {
+                        if (!result.isNullOrEmpty()) {
                             apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
-                            newsArticleLiveData.value = result.articles
+                            newsArticleLiveData.value = result as ArrayList<Article>
                         } else {
                             apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
                             if (search) apiErrorsLiveData.value = appUtil.getString(R.string.txt_search_failed)
+                        }
+                    }
+
+                    override fun onApiFailure(error: String) {
+                        setSearchLoading(false)
+                        setLoading(false)
+                        apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                        apiErrorsLiveData.value = error
+                    }
+                })
+        } else {
+            if (search) {
+                setSearchLoading(true)
+                setLoading(false)
+            } else {
+                setSearchLoading(false)
+                setLoading(true)
+            }
+            disposable = repository.getOfflineArticles(search, country, category, query)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : CallbackObserverWrapper<List<Article>>() {
+                    override fun onApiSuccess(result: List<Article>) {
+                        setSearchLoading(false)
+                        setLoading(false)
+                        if (!result.isNullOrEmpty()) {
+                            apiResultLiveData.value = Constants.ApiResult.ON_SUCCESS.name
+                            newsArticleLiveData.value = result as ArrayList<Article>
+                        } else {
+                            apiResultLiveData.value = Constants.ApiResult.ON_FAILURE.name
+                            if (search) apiErrorsLiveData.value = appUtil.getString(R.string.txt_search_failed)
+                            else dialogStateLiveData.value = Constants.DialogState.DEVICE_OFFLINE_DIALOG.name
                         }
                     }
 
@@ -158,6 +189,6 @@ class TopHeadlineViewModel @Inject constructor(
                         apiResultLiveData.value = Constants.ApiResult.ON_COMPLETED.name
                     }
                 })
-        } else dialogStateLiveData.value = Constants.DialogState.DEVICE_OFFLINE_DIALOG.name
+        }
     }
 }
