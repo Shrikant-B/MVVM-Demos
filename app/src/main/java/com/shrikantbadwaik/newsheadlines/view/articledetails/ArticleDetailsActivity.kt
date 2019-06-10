@@ -1,8 +1,6 @@
 package com.shrikantbadwaik.newsheadlines.view.articledetails
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -11,18 +9,13 @@ import com.shrikantbadwaik.newsheadlines.BR
 import com.shrikantbadwaik.newsheadlines.R
 import com.shrikantbadwaik.newsheadlines.databinding.ActivityArticleDetailsBinding
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ArticleDetailsActivity : AppCompatActivity() {
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-
-    private lateinit var viewModel: ArticleDetailsViewModel
+    private val viewModel: ArticleDetailsViewModel by viewModel()
     private lateinit var activityBinding: ActivityArticleDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setupBindingAndViewModel()
         setupToolbar()
@@ -41,7 +34,6 @@ class ArticleDetailsActivity : AppCompatActivity() {
 
     private fun setupBindingAndViewModel() {
         activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_article_details)
-        viewModel = ViewModelProviders.of(this, factory).get(ArticleDetailsViewModel::class.java)
         activityBinding.setVariable(BR.viewModel, viewModel)
         activityBinding.executePendingBindings()
     }

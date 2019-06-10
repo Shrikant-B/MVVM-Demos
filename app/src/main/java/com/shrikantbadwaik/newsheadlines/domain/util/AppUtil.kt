@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
 import android.support.annotation.StringRes
-import javax.inject.Inject
+import org.koin.core.KoinComponent
 
-class AppUtil @Inject constructor(private val context: Context) {
+class AppUtil constructor(private val context: Context) : KoinComponent {
     companion object {
         fun isMarshmallow() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 

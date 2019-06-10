@@ -1,8 +1,6 @@
 package com.shrikantbadwaik.newsheadlines.view.topheadline
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -21,21 +19,15 @@ import com.shrikantbadwaik.newsheadlines.domain.model.Article
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
 import com.shrikantbadwaik.newsheadlines.domain.util.DialogUtil
 import com.shrikantbadwaik.newsheadlines.view.articledetails.ArticleDetailsActivity
-import dagger.android.AndroidInjection
-import javax.inject.Inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class TopHeadlineActivity : AppCompatActivity() {
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
-    @Inject
-    lateinit var adapter: TopHeadlineRecyclerAdapter
-
-    private lateinit var viewModel: TopHeadlineViewModel
+    private val viewModel: TopHeadlineViewModel by viewModel()
+    private lateinit var adapter: TopHeadlineRecyclerAdapter
     private lateinit var activityBinding: ActivityTopHeadlineBinding
     private lateinit var clearButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setupBindingAndViewModel()
         setupSearchView()
@@ -46,12 +38,11 @@ class TopHeadlineActivity : AppCompatActivity() {
         apiResultObserver()
         apiErrorObserver()
         newsArticleObserver()
-        viewModel.getTopHeadlines(false, null)
+        viewModel.getTopHeadlines(this, false, null)
     }
 
     private fun setupBindingAndViewModel() {
         activityBinding = DataBindingUtil.setContentView(this, R.layout.activity_top_headline)
-        viewModel = ViewModelProviders.of(this, factory).get(TopHeadlineViewModel::class.java)
         activityBinding.setVariable(BR.viewModel, viewModel)
         activityBinding.executePendingBindings()
     }
@@ -62,7 +53,7 @@ class TopHeadlineActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 adapter.clear()
                 clearButton.visibility = View.GONE
-                viewModel.getTopHeadlines(true, query)
+                viewModel.getTopHeadlines(this@TopHeadlineActivity, true, query)
                 return true
             }
 
@@ -73,6 +64,7 @@ class TopHeadlineActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        adapter = TopHeadlineRecyclerAdapter()
         adapter.setCallback(object : TopHeadlineRecyclerAdapter.AdapterCallback {
             override fun onArticleClicked(article: Article) {
                 val intent = Intent(this@TopHeadlineActivity, ArticleDetailsActivity::class.java)
@@ -122,7 +114,10 @@ class TopHeadlineActivity : AppCompatActivity() {
                         override fun onItemSelected(which: String, name: String) {
                             adapter.clear()
                             activityBinding.btnSelectCountry.text = name
-                            viewModel.selectCountry(which, activityBinding.btnSelectCategory.text.toString())
+                            viewModel.selectCountry(
+                                application, resources.getStringArray(R.array.category),
+                                which, activityBinding.btnSelectCategory.text.toString()
+                            )
                         }
                     })
                 }
@@ -135,7 +130,10 @@ class TopHeadlineActivity : AppCompatActivity() {
                         override fun onItemSelected(which: String, name: String) {
                             adapter.clear()
                             activityBinding.btnSelectCategory.text = name
-                            viewModel.selectCategory(activityBinding.btnSelectCountry.text.toString(), which)
+                            viewModel.selectCategory(
+                                application, resources.getStringArray(R.array.country),
+                                activityBinding.btnSelectCountry.text.toString(), which
+                            )
                         }
                     })
                 }

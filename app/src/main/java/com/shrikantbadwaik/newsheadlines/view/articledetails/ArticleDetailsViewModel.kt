@@ -10,11 +10,12 @@ import com.shrikantbadwaik.newsheadlines.domain.model.Article
 import com.shrikantbadwaik.newsheadlines.domain.util.AppUtil
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
 import com.shrikantbadwaik.newsheadlines.domain.util.DateUtil
-import javax.inject.Inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class ArticleDetailsViewModel @Inject constructor(
-    private val appUtil: AppUtil
-) : ViewModel() {
+class ArticleDetailsViewModel : ViewModel(), KoinComponent {
+    private val appUtil: AppUtil by inject()
+
     private val articleImage: ObservableField<String> = ObservableField()
     private val articleTitle: ObservableField<String> = ObservableField()
     private val articleAuthor: ObservableField<String> = ObservableField()

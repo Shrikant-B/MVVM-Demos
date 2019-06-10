@@ -2,11 +2,8 @@ package com.shrikantbadwaik.newsheadlines.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class PreferenceHelper @Inject constructor(context: Context) {
+class PreferenceHelper constructor(context: Context) {
     private val prefFileName = "newsapp-pref-file"
     private val pref: SharedPreferences
 

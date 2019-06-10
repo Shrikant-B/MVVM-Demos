@@ -3,9 +3,9 @@ package com.shrikantbadwaik.newsheadlines.view.splash
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.shrikantbadwaik.newsheadlines.domain.util.Constants
-import javax.inject.Inject
+import org.koin.core.KoinComponent
 
-class SplashViewModel @Inject constructor() : ViewModel() {
+class SplashViewModel : ViewModel(), KoinComponent {
     private val event: MutableLiveData<String> = MutableLiveData()
 
     fun getEvent(): MutableLiveData<String> = event

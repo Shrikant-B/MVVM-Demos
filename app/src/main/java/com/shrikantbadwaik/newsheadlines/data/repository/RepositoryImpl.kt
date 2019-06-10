@@ -8,11 +8,8 @@ import com.shrikantbadwaik.newsheadlines.domain.model.Article
 import com.shrikantbadwaik.newsheadlines.domain.model.News
 import io.reactivex.Maybe
 import io.reactivex.Single
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class RepositoryImpl @Inject constructor(
+class RepositoryImpl constructor(
     private val prefs: PreferenceHelper, private val api: NewsApi, private val articleDao: ArticleDao
 ) : Repository {
     override fun getTopHeadlines(country: String, category: String, query: String?): Single<List<Article>> {

@@ -10,9 +10,8 @@ import com.shrikantbadwaik.newsheadlines.R
 import com.shrikantbadwaik.newsheadlines.databinding.LayoutTopHeadlineAdapterContentBinding
 import com.shrikantbadwaik.newsheadlines.domain.model.Article
 import com.shrikantbadwaik.newsheadlines.domain.util.DateUtil
-import javax.inject.Inject
 
-class TopHeadlineRecyclerAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TopHeadlineRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val articles: ArrayList<Article> = ArrayList()
     private var callback: AdapterCallback? = null
 

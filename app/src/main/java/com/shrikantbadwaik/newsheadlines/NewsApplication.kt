@@ -1,23 +1,24 @@
 package com.shrikantbadwaik.newsheadlines
 
-import android.app.Activity
 import android.app.Application
-import com.shrikantbadwaik.newsheadlines.data.di.ApplicationInjector
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import com.shrikantbadwaik.newsheadlines.data.di.applicationModule
+import com.shrikantbadwaik.newsheadlines.data.di.networkModule
+import com.shrikantbadwaik.newsheadlines.data.di.roomModule
+import com.shrikantbadwaik.newsheadlines.data.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidFileProperties
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
-class NewsApplication : Application(), HasActivityInjector {
-    @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+class NewsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ApplicationInjector.inject(this)
-    }
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return activityInjector
+        startKoin {
+            androidLogger()
+            androidContext(this@NewsApplication)
+            androidFileProperties()
+            modules(listOf(applicationModule, viewModelModule, networkModule, roomModule))
+        }
     }
 }
